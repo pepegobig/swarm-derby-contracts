@@ -4,8 +4,10 @@ Robinhood Chain mainnet (chain id 4663) · IMD `0x5F7Bb59365ce557C26dbcAa4EE9d39
 public RPC `https://rpc.mainnet.chain.robinhood.com` · explorer `https://robinhoodchain.blockscout.com`
 
 This guide describes SwarmDerby v2: rolls use a signed house draw (`src/HouseDraw.sol`,
-`house/`). The contract live at `0xBa58BC6b5aCf8043DAEa2Bf1BF6C1c09cF84b03C` is v1. v2 is not
-deployed yet.
+`house/`). **Live:** `0x53d9aa0b925c5148bcc5f98f394872687f4c831c` on Robinhood Chain (IMD launch
+#1103, job `c20f9b8b`, block 83707697). Its runtime is byte-identical to a build of `da1a864`.
+The first SwarmDerby (v1, `0xBa58BC6b5aCf8043DAEa2Bf1BF6C1c09cF84b03C`, IMD launch #871) stays
+on chain so that turns already bought there can be played; the page plays v2.
 
 ## What's in this folder
 
@@ -200,11 +202,14 @@ three lows are fixed: the reclaim grace starts no earlier than settlement, a lat
 no carry, a studio that cannot be paid is credited, and `openDay()` names a day that is still
 extended. The info items are operating notes under **Known limits**.
 
-**Live:** `0x0d81989ea1a4fdafb309ce738271d3bd659dab7b` on Robinhood Chain (IMD launch #1053,
-job `3bfde4f8`, block 83400203, tx `0xc99f49bb…d452ba6c`), deployed from commit `5c5c30d`
-with the arguments below; owner and studio are the owner wallet that the launch named.
-Its runtime is byte-identical to a local build of `5c5c30d` with the two immutables masked.
-The launch's own audit panel found no critical, high, medium or low defect.
+**Live:** `0x9794943b691c76be4247f252adc920d9c33ee8ca` on Robinhood Chain (IMD launch #1109,
+job `c0881060`, block 83741405) for SwarmDerby v2, with the arguments below; owner and studio
+are the owner wallet that the launch named, `buildFee` is 0. Its runtime is byte-identical to
+the first DerbyAuction apart from the immutable `derby` address. The first DerbyAuction,
+`0x0d81989ea1a4fdafb309ce738271d3bd659dab7b` (IMD launch #1053, job `3bfde4f8`, block 83400203,
+tx `0xc99f49bb…d452ba6c`, deployed from commit `5c5c30d` for SwarmDerby v1), pays the bonus
+of days already bid on there. That launch's own audit panel found no critical, high, medium or
+low defect.
 
 Constructor arguments, in order:
 
@@ -212,7 +217,7 @@ Constructor arguments, in order:
 |---|---|
 | `owner_` | `$owner`, the actual owner supplied to the launch request |
 | `imd_` | `0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127` (Robinhood IMD) |
-| `derby_` | `0xBa58BC6b5aCf8043DAEa2Bf1BF6C1c09cF84b03C` (SwarmDerby v1). `derby` is immutable: with SwarmDerby v2, deploy DerbyAuction again with the v2 address here and in the launch body |
+| `derby_` | `0x53d9aa0b925c5148bcc5f98f394872687f4c831c` (SwarmDerby v2; the first DerbyAuction used v1, `0xBa58BC6b5aCf8043DAEa2Bf1BF6C1c09cF84b03C`). `derby` is immutable: a new SwarmDerby needs a new DerbyAuction |
 | `studio_` | `$owner`; any nonzero address is allowed and the owner can change it later |
 | `buildFee_` | `0` |
 
@@ -234,7 +239,7 @@ Replace the repo, pinned commit, and owner placeholders with the actual launch v
 
 ```json
 {
-  "objective": "Deploy only DerbyAuction (src/DerbyAuction.sol) to Robinhood Chain after the IMD audit. Do not deploy or modify SwarmDerby or create a token, distributor or pool. Constructor arguments in order: owner_ = $owner; imd_ = 0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127; derby_ = 0xBa58BC6b5aCf8043DAEa2Bf1BF6C1c09cF84b03C; studio_ = $owner; buildFee_ = 0.",
+  "objective": "Deploy only DerbyAuction (src/DerbyAuction.sol) to Robinhood Chain after the IMD audit. Do not deploy or modify SwarmDerby or create a token, distributor or pool. Constructor arguments in order: owner_ = $owner; imd_ = 0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127; derby_ = 0x53d9aa0b925c5148bcc5f98f394872687f4c831c; studio_ = $owner; buildFee_ = 0.",
   "repoUrl": "https://github.com/YOU/swarm-derby-contracts",
   "baseCommit": "COMMIT_FROM_IMPORT",
   "contracts": ["src/DerbyAuction.sol"],
